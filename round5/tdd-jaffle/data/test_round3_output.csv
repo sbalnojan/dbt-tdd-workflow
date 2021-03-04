@@ -1,0 +1,4 @@
+order_count,date,payment_type
+1,2018-01-01,giftcard
+1,2018-01-02,giftcard
+1,2018-01-02,debitcard
