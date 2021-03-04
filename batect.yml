@@ -1,0 +1,62 @@
+containers:
+  my_postgres:
+    image: postgres:13.1
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test_pwd
+      POSTGRES_DB: postgres
+    volumes:
+      - local: postgres-data
+        container: /var/lib/postgresql/data
+
+  dbt:
+    image: fishtownanalytics/dbt:0.19.0
+    environment:
+      DBT_PROFILES_DIR: /usr/app/
+    volumes:
+      - local: profiles.yml
+        container: /usr/app/profiles.yml
+        options: cached
+      - local: round4/tdd-jaffle
+        container: /usr/app/
+        options: cached
+
+tasks:
+  run_postgres:
+    description: Start a shell in the development environment.
+    group: Utility tasks
+    run:
+      container: my_postgres
+      #command: bin/sh
+
+  run_dbt:
+    description: Start a shell in the development environment.
+    group: Utility tasks
+    dependencies:
+      - my_postgres
+    run:
+      container: dbt
+      entrypoint: bash
+
+  seed_dbt:
+    description: Start a shell in the development environment.
+    group: Setup tasks
+    dependencies:
+      - my_postgres
+    run:
+      container: dbt
+      #entrypoint: bash -c
+      command: "seed"
+
+  run_seeded_dbt:
+    description: Start a shell in the development environment.
+    group: Utility tasks
+    dependencies:
+      - my_postgres
+    prerequisites:
+      - seed_dbt
+    run:
+      container: dbt
+      entrypoint: bash
