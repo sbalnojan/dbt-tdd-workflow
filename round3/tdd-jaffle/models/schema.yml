@@ -1,0 +1,8 @@
+# schema.yml
+version: 2
+
+models:
+  - name: dash_orders
+    tests:
+      - dbt_utils.equality:
+          compare_model: ref('test_round3_output')
