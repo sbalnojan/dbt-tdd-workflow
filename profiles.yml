@@ -1,0 +1,23 @@
+# example profiles.yml file
+default:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: my_postgres
+      user: test
+      pass: test_pwd
+      port: 5432
+      dbname: postgres
+      schema: dbt_test
+      threads: 4
+      
+    ci:
+      type: postgres
+      host: my_postgres
+      user: test
+      pass: test_pwd
+      port: 5432
+      dbname: postgres
+      schema: dbt_test
+      threads: 4
