@@ -19,17 +19,17 @@ containers:
       - local: profiles.yml
         container: /usr/app/profiles.yml
         options: cached
+        # REPLACE WITH THE ROUND YOU WANT TO RUN!
       - local: round4/tdd-jaffle
         container: /usr/app/
         options: cached
 
 tasks:
   run_postgres:
-    description: Start a shell in the development environment.
+    description: Start a postgres instance...
     group: Utility tasks
     run:
       container: my_postgres
-      #command: bin/sh
 
   run_dbt:
     description: Start a shell in the development environment.
@@ -41,18 +41,19 @@ tasks:
       entrypoint: bash
 
   seed_dbt:
-    description: Start a shell in the development environment.
+    description: Start the seeding of data into the postgres.
     group: Setup tasks
     dependencies:
       - my_postgres
     run:
       container: dbt
-      #entrypoint: bash -c
       command: "seed"
 
+
+## THIS IS THE DEV TASK YOU CAN USE TO RUN YOUR STUFF...
   run_seeded_dbt:
-    description: Start a shell in the development environment.
-    group: Utility tasks
+    description: Start a shell in the development environment, with seeded data..
+    group: Dev tasks
     dependencies:
       - my_postgres
     prerequisites:
