@@ -1,0 +1,4 @@
+id,user_id,order_date,status,payment_method
+1,1,2018-01-01,completed,giftcard
+2,3,2018-01-02,completed,debitcard
+3,3,2018-01-02,completed,giftcard
